@@ -284,9 +284,9 @@ python main.py
 | Data Ingestion | ✅ Completed |
 | Data Validation | ✅ Completed |
 | Data Transformation | ✅ Completed |
-| Model Trainer | 🚧 In Progress |
-| Model Evaluation | 🚧 Planned |
-| MLFlow Tracking | 🚧 Planned |
+| Model Trainer | ✅ Completed |
+| Model Evaluation | ✅ Completed |
+| MLFlow Tracking | ✅ Completed |
 | Docker Deployment | 🚧 Planned |
 | AWS Deployment | 🚧 Planned |
 
