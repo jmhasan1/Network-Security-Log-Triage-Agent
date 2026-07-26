@@ -13,3 +13,6 @@ mlflow.db
 # Migration backups
 environment_backup.yml
 old_requirements.txt
+
+.python-version
+project.toml
