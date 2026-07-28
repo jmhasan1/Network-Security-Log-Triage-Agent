@@ -26,7 +26,13 @@ from sklearn.ensemble import (
 import mlflow
 from urllib.parse import urlparse
 
-# import dagshub
+import dagshub
+# dagshub.init(repo_owner='jmhasan1', repo_name='Network-Security-ML-Pipeline', mlflow=True)
+
+os.environ["MLFLOW_TRACKING_URI"]=os.getenv("MLFLOW_TRACKING_URL")
+os.environ["MLFLOW_TRACKING_USERNAME"]=os.getenv("MLFLOW_TRACKING_USERNAME")
+os.environ["MLFLOW_TRACKING_PASSWORD"]=os.getenv("MLFLOW_TRACKING_PASSWORD")
+
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,data_transformation_artifact:DataTransformationArtifact):
@@ -38,8 +44,8 @@ class ModelTrainer:
         
     
     def track_mlflow(self,best_model,classificationmetric):
-        # mlflow.set_registry_uri(".......")
-        # tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
+        mlflow.set_registry_uri(os.getenv("MLFLOW_TRACKING_URL"))
+        tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
         with mlflow.start_run():
             f1_score=classificationmetric.f1_score
             precision_score=classificationmetric.precision_score
@@ -52,15 +58,15 @@ class ModelTrainer:
             mlflow.log_metric("recall_score",recall_score)
             mlflow.sklearn.log_model(best_model,"model")
             # Model registry does not work with file store
-            # if tracking_url_type_store != "file":
+            if tracking_url_type_store != "file":
 
             #     # Register the model
             #     # There are other ways to use the Model Registry, which depends on the use case,
             #     # please refer to the doc for more information:
             #     # https://mlflow.org/docs/latest/model-registry.html#api-workflow
-            #     mlflow.sklearn.log_model(best_model, "model", registered_model_name=best_model)
-            # else:
-            #     mlflow.sklearn.log_model(best_model, "model")
+                mlflow.sklearn.log_model(best_model, "model", registered_model_name=best_model)
+            else:
+                mlflow.sklearn.log_model(best_model, "model")
 
         
     def train_model(self,X_train,y_train ,x_test,y_test):
@@ -123,6 +129,7 @@ class ModelTrainer:
         y_test_pred=best_model.predict(x_test)
         classification_test_metric=get_classification_score(y_true=y_test,y_pred=y_test_pred)
 
+        # ## Track the experiements with mlflow (with test metric)
         self.track_mlflow(best_model,classification_test_metric)
 
         preprocessor = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
@@ -133,7 +140,7 @@ class ModelTrainer:
         Network_Model=NetworkModel(preprocessor=preprocessor,model=best_model)
         save_object(self.model_trainer_config.trained_model_file_path,obj=NetworkModel)
         #model pusher
-        # save_object("final_model/model.pkl",best_model)
+        save_object("model/model.pkl",best_model)
 
         ## Model Trainer Artifact
         model_trainer_artifact=ModelTrainerArtifact(trained_model_file_path=self.model_trainer_config.trained_model_file_path,
