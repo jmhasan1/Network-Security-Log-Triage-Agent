@@ -1,3 +1,4 @@
+setuptools
 python-dotenv
 pandas
 numpy
@@ -6,6 +7,9 @@ certifi
 pymongo
 scikit-learn
 mlflow
+dagshub
+fastapi
+uvicorn
 # pymal
 
 # -e .
