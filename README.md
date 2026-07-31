@@ -1,313 +1,277 @@
-# 🛡️ Network Security ML Pipeline  
-> End-to-End Production-Ready Machine Learning System for Network Intrusion Detection  
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Status](https://img.shields.io/badge/Status-In%20Development-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+# 🛡️ Network Security Log Triage Agent
+
+> **Building an AI-powered Security Operations (SOC) assistant using Machine Learning, Retrieval-Augmented Generation (RAG), Agentic AI, and MCP.**
 
 ---
 
-## 📌 Project Overview
+## 🚧 Current Status
 
-This project implements a **modular, production-grade Machine Learning pipeline** for Network Security / Intrusion Detection.
+This repository is currently **Version 1** of the project.
 
-It follows a real-world industry architecture:
+The existing implementation is a production-oriented **Machine Learning pipeline** that serves as the foundation for a future AI-powered Security Log Triage Agent.
 
-ETL → Data Ingestion → Data Validation → Data Transformation → Model Training → Evaluation → Deployment
+### ✅ Implemented
 
-The project is designed with:
+- Modular ML Pipeline
+- MongoDB Data Ingestion
+- Data Validation
+- Dataset Drift Detection (KS Test)
+- Data Transformation
+- Multi-model Training
+- MLflow Experiment Tracking
+- FastAPI Inference API
+- Docker Support
+- Modular Architecture
 
-- ✅ Clean modular architecture
-- ✅ Custom logging & exception handling
-- ✅ Schema validation
-- ✅ Data drift detection
-- ✅ Feature store concept
-- ✅ Artifact-driven pipeline
-- ✅ CI/CD ready structure
-- 🚧 Model training & deployment (in progress)
+### 🚧 Currently Building
 
----
+- Production model improvements
+- Better evaluation framework
+- Documentation
+- Repository refactoring
 
-## 🏗️ Architecture Overview
+### 🎯 Planned
 
-### 1️⃣ ETL Pipeline (Extract → Transform → Load)
-
-- Extract data from local CSV
-- Convert into JSON records
-- Push into MongoDB Atlas
-- Uses:
-  - `pymongo`
-  - `certifi`
-  - `.env` for secure Mongo URI
-  - Custom exception handling
-
-MongoDB is used as the centralized data source for training.
-
----
-
-### 2️⃣ Data Ingestion Component
-
-Reads data from MongoDB and:
-
-- Exports collection as DataFrame
-- Creates **Feature Store**
-- Splits data into:
-  - `train.csv`
-  - `test.csv`
-- Saves artifacts with timestamped directory
-
-Artifacts:
-
-```
-artifacts/
-   └── <timestamp>/
-         └── data_ingestion/
-               ├── feature_store/
-               └── ingested/
-```
+- Security Log Ingestion
+- Retrieval-Augmented Generation (RAG)
+- LangGraph Agent
+- MCP Tool Integration
+- Investigation Workflow
+- SOC Dashboard
 
 ---
 
-### 3️⃣ Data Validation Component
+# 🎯 Project Goal
 
-Ensures production-grade data consistency:
+The long-term objective is to build an **AI-powered Network Security Log Triage Agent** capable of:
 
-✔ Schema validation (based on `schema.yaml`)  
-✔ Column count validation  
-✔ Numerical column validation  
-✔ Data drift detection using **KS Test (scipy.stats.ks_2samp)**  
+- Understanding security alerts
+- Retrieving historical incidents
+- Using organizational documentation
+- Performing multi-step investigations
+- Calling specialized security tools
+- Assisting SOC analysts with evidence-based decisions
 
-Generates:
-- Drift report (YAML)
-- Validation artifacts
+Instead of simply predicting **"Attack"** or **"Normal"**, the system will answer:
 
-If validation fails → pipeline stops.
+> **What happened? Why did it happen? How confident are we? What should the analyst do next?**
 
 ---
 
-### 4️⃣ Data Transformation Component
+# 🏗️ Architecture
 
-Performs preprocessing:
+Current architecture:
 
-- KNN Imputation for missing values
-- Train/Test separation
-- Target column split
-- Preprocessing pipeline creation
-- Saves:
-  - `preprocessing.pkl`
-  - `train.npy`
-  - `test.npy`
-
-Artifacts:
-
-```
-data_transformation/
-    ├── preprocessing.pkl
-    ├── train.npy
-    └── test.npy
+```text
+MongoDB
+    │
+    ▼
+Data Ingestion
+    │
+    ▼
+Data Validation
+    │
+    ▼
+Data Transformation
+    │
+    ▼
+Model Training
+    │
+    ▼
+FastAPI
 ```
 
----
+Target architecture:
 
-### 5️⃣ Model Trainer Component (🚧 In Progress)
-
-Planned architecture:
-
-- Load transformed numpy arrays
-- Model Factory:
-  - Train multiple models
-  - Select best model
-- Accuracy threshold comparison
-- Save:
-  - `model.pkl`
-  - Metrics artifact
-- Combine with preprocessing object
-
----
-
-### 6️⃣ Model Evaluation (🚧 Planned)
-
-- Compare new model vs previous production model
-- Accept only if performance improves
-
----
-
-### 7️⃣ Model Pusher (🚧 Planned)
-
-- Push model to:
-  - AWS S3 / EC2
-  - Docker container
-  - Production inference system
-
----
-
-### 8️⃣ Deployment Architecture (CI/CD Ready)
-
-Deployment plan:
-
-Local Code → Docker Image → AWS ECR → AWS EC2  
-                                ↑  
-                     GitHub Actions CI/CD  
-
-- GitHub Actions workflow included
-- Dockerfile included
-- Environment variable support via `.env`
-
----
-
-## 📂 Project Structure
-
-```
-NetworkSecurity/
-│
-├── .github/workflows/
-│      └── main.yml
-│
-├── networksecurity/
-│      ├── components/
-│      ├── constant/
-│      ├── entity/
-│      ├── exception/
-│      ├── logging/
-│      ├── pipeline/
-│      ├── utils/
-│      └── cloud/
-│
-├── data_schema/
-│      └── schema.yaml
-│
-├── notebooks/
-├── network_data/
-├── setup.py
-├── requirements.txt
-├── Dockerfile
-└── main.py
+```text
+Security Logs
+      │
+      ▼
+Log Processing
+      │
+      ▼
+ML Detection
+      │
+      ▼
+RAG Retrieval
+      │
+      ▼
+LangGraph Agent
+      │
+      ▼
+MCP Tools
+      │
+      ▼
+Investigation Report
 ```
 
 ---
 
-## ⚙️ Key Engineering Highlights
+# 📚 Documentation
 
-### 🔹 Custom Logging System
-- Timestamped log files
-- Auto log directory creation
-- Centralized logging configuration
+Comprehensive documentation is available in the **docs/** directory.
 
-### 🔹 Custom Exception Class
-Captures:
-- File name
-- Line number
-- Error message
-- Full traceback
-
-### 🔹 Configuration-Driven Design
-All paths and parameters controlled via:
-
-```
-constant/training_pipeline/
-```
-
-No hardcoded paths inside components.
-
-### 🔹 Artifact-Based Pipeline
-Each stage produces structured artifacts:
-- Clean separation of concerns
-- Easier debugging
-- Reproducibility
-- Production scalability
-
-### 🔹 MongoDB Integration
-- Secure Atlas connection
-- Environment variable usage
-- JSON-based data loading
+| Topic | Description |
+|--------|-------------|
+| 📖 [Project Overview](docs/00_Project_Overview.md) | Goals, workflow, and project vision |
+| ⚙️ [Environment Setup](docs/01_Environment_Setup.md) | Installation and development environment |
+| 🗂️ [Project Structure](docs/02_Project_Structure.md) | Repository organization |
+| 🏛️ [Architecture Overview](docs/03_Architecture_Overview.md) | High-level system design |
+| ⚙️ [Configuration & Artifacts](docs/04_Configuration_and_Artifacts.md) | Core architectural concepts |
+| 📥 [Data Ingestion](docs/05_Data_Ingestion.md) | MongoDB → Feature Store |
+| ✅ [Data Validation](docs/06_Data_Validation.md) | Schema validation & KS-test drift detection |
+| 🔄 [Data Transformation](docs/07_Data_Transformation.md) | Preprocessing pipeline |
+| 🤖 [Model Training](docs/08_Model_Training.md) | Training, evaluation & MLflow |
+| 🚀 [Training Pipeline](docs/09_Training_Pipeline.md) | End-to-end orchestration |
+| 🌐 [Inference API](docs/10_Inference_API.md) | FastAPI deployment |
+| 🧰 [Utilities](docs/11_Utilities.md) | Shared infrastructure |
+| 🛣️ [Future Roadmap](docs/12_Future_Roadmap.md) | Evolution toward Agentic AI |
 
 ---
 
-## 🧠 Machine Learning Design Philosophy
+# 🛠️ Technology Stack
 
-- Separation of configuration & execution
-- Pipeline modularization
-- Schema enforcement before training
-- Drift detection before transformation
-- Model selection using factory pattern
-- Threshold-based model acceptance
+### Machine Learning
 
-This follows enterprise ML standards.
+- Scikit-learn
+- NumPy
+- Pandas
+- MLflow
+
+### Backend
+
+- FastAPI
+- Uvicorn
+
+### Database
+
+- MongoDB
+
+### Development
+
+- Python 3.11
+- uv
+- Docker
+
+### Future Stack
+
+- LangGraph
+- LangChain
+- MCP
+- Vector Database
+- Rerankers
+- LLMs
+- Hybrid Retrieval
 
 ---
 
-## 🚀 How to Run
+# 🗺️ Roadmap
 
-### 1️⃣ Clone Repository
+## Version 1 (Current)
+
+✅ Production Machine Learning Pipeline
+
+---
+
+## Version 2
+
+- Better feature engineering
+- Improved evaluation
+- Model monitoring
+- Better deployment
+
+---
+
+## Version 3
+
+- Security Log Processing
+- RAG
+- Vector Database
+- Historical Incident Retrieval
+
+---
+
+## Version 4
+
+- LangGraph Agent
+- MCP Integration
+- Multi-step Investigation
+- Security Reasoning
+
+---
+
+## Version 5
+
+AI-powered Security Investigation Platform
+
+---
+
+# 📂 Repository
+
+```text
+docs/
+networksecurity/
+data/
+models/
+evaluation/
+tests/
+app.py
+main.py
+```
+
+See **Project Structure** for a complete explanation.
+
+➡️ docs/02_Project_Structure.md
+
+---
+
+# 🚀 Quick Start
 
 ```bash
-git clone https://github.com/jmhasan1/NetworkSecurity.git
-cd NetworkSecurity
+git clone https://github.com/jmhasan1/Network-Security-Log-Triage-Agent.git
+
+cd Network-Security-Log-Triage-Agent
+
+uv venv
+
+.venv\Scripts\activate
+
+uv pip install -r requirements.txt
 ```
 
-### 2️⃣ Create Environment
+Run the application:
 
 ```bash
-conda create -n network python=3.10 -y
-conda activate network
-```
-
-### 3️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4️⃣ Add Environment Variables
-
-Create `.env`:
-
-```
-MONGO_DB_URL=your_mongodb_connection_string
-```
-
-### 5️⃣ Run ETL
-
-```bash
-python push_data.py
-```
-
-### 6️⃣ Run Training Pipeline
-
-```bash
-python main.py
+uvicorn app:app --reload
 ```
 
 ---
 
-## 📊 Current Status
+# 🌟 End Goal
 
-| Component | Status |
-|-----------|--------|
-| ETL | ✅ Completed |
-| Data Ingestion | ✅ Completed |
-| Data Validation | ✅ Completed |
-| Data Transformation | ✅ Completed |
-| Model Trainer | ✅ Completed |
-| Model Evaluation | ✅ Completed |
-| MLFlow Tracking | ✅ Completed |
-| Docker Deployment | 🚧 Planned |
-| AWS Deployment | 🚧 Planned |
+This repository is **not intended to remain a classical ML project**.
 
----
+The goal is to build an intelligent Security Operations assistant capable of:
 
-## 🔮 Upcoming Enhancements
+- Understanding alerts
+- Retrieving organizational knowledge
+- Investigating incidents
+- Calling external security tools through MCP
+- Producing structured investigation reports
+- Assisting security analysts rather than replacing them
 
-- Advanced model selection (XGBoost, LightGBM, Random Forest)
-- MLFlow experiment tracking
-- Model versioning
-- REST API (FastAPI)
-- Real-time inference endpoint
-- AWS ECR + EC2 auto deployment
-- Monitoring & alerting
-- Batch prediction pipeline
-
-
-## 👤 Author
-
-**Jahid Hasan**  
-AI / ML Engineer  
-GitHub: https://github.com/jmhasan1/NetworkSecurity
+The current Machine Learning pipeline is the foundation upon which these capabilities will be built.
 
 ---
+
+## 👨‍💻 Author
+
+**Jahid Hasan**
+
+AI / ML Engineer
+
+GitHub: https://github.com/jmhasan1
