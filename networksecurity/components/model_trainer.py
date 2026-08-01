@@ -41,32 +41,167 @@ class ModelTrainer:
             self.data_transformation_artifact=data_transformation_artifact
         except Exception as e:
             raise NetworkSecurityException(e,sys)
+
+    # ==========================================================
+    # Configure MLflow tracking server (DagsHub)
+    # ==========================================================
+
+    def track_mlflow(
+        self,
+        best_model,
+        best_model_name,
+        train_metric,
+        test_metric,
+        train_size,
+        test_size,
+        model_params=None):
+
+        """
+            Log the complete training experiment to MLflow.
         
-    
-    def track_mlflow(self,best_model,classificationmetric):
-        mlflow.set_registry_uri(os.getenv("MLFLOW_TRACKING_URI"))
-        tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
-        with mlflow.start_run():
-            f1_score=classificationmetric.f1_score
-            precision_score=classificationmetric.precision_score
-            recall_score=classificationmetric.recall_score
+            Logs
+            -----
+            • Train metrics
+            • Test metrics
+            • Hyperparameters
+            • Model metadata
+            • Registered model (DagsHub)
+        
+            Returns
+            -------
+             None
+        """
 
+        try:
+
+            mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
             
+            tracking_scheme = urlparse(mlflow.get_tracking_uri()).scheme
 
-            mlflow.log_metric("f1_score",f1_score)
-            mlflow.log_metric("precision",precision_score)
-            mlflow.log_metric("recall_score",recall_score)
-            mlflow.sklearn.log_model(best_model,"model")
-            # Model registry does not work with file store
-            if tracking_url_type_store != "file":
+            with mlflow.start_run():
 
-            #     # Register the model
-            #     # There are other ways to use the Model Registry, which depends on the use case,
-            #     # please refer to the doc for more information:
-            #     # https://mlflow.org/docs/latest/model-registry.html#api-workflow
-                mlflow.sklearn.log_model(best_model, "model", registered_model_name=best_model)
-            else:
-                mlflow.sklearn.log_model(best_model, "model")
+                # ===========================
+                # Training Metrics
+                # ===========================
+
+                mlflow.log_metric(
+                    "train_f1_score",
+                    train_metric.f1_score
+                )
+
+                mlflow.log_metric(
+                    "train_precision",
+                    train_metric.precision_score
+                )
+
+                mlflow.log_metric(
+                "train_recall",
+                train_metric.recall_score
+                )
+
+                # ===========================
+                # Testing Metrics
+                # ===========================
+
+                mlflow.log_metric(
+                    "test_f1_score",
+                    test_metric.f1_score
+                )
+
+                mlflow.log_metric(
+                    "test_precision",
+                    test_metric.precision_score
+                )
+
+                mlflow.log_metric(
+                    "test_recall",
+                    test_metric.recall_score
+                )
+
+                # ===========================================
+                # Log model hyperparameters
+                # Helps reproduce experiments later
+                # ===========================================
+                
+                if model_params:
+                    mlflow.log_params(model_params)
+
+                # ===========================================
+                # Log dataset information
+                # Helps compare experiments trained on
+                # different dataset sizes.
+                #===========================================
+
+                mlflow.log_param("train_samples", train_size)
+                mlflow.log_param("test_samples", test_size)
+
+                # ===========================================
+                # Log metadata
+                # ===========================================
+
+                mlflow.set_tag(
+                    "model_type",
+                    type(best_model).__name__
+                )
+
+                # Log selected algorithm
+                # Useful for comparing different models across experiments.
+
+                mlflow.log_param(
+                    "algorithm",
+                    best_model_name
+                )
+
+                mlflow.set_tag(
+                    "framework",
+                    "scikit-learn"
+                )
+
+                mlflow.set_tag(
+                    "project",
+                    "Network Security Log Triage Agent"
+                )
+
+                # log dataset version
+                mlflow.set_tag(
+                    "dataset",
+                    "Network Security Phishing Dataset"
+                )
+
+                # experiment description
+                mlflow.set_tag(
+                    "experiment_type",
+                    "Baseline Model"
+                )
+
+                # ==========================================================
+                # Log trained model to the MLflow Tracking Server.
+                #
+                # If a remote tracking server (DagsHub) is used,
+                # also register the model in the MLflow Model Registry.
+                #
+                # For a local file store, only the model artifact is saved.
+                # ==========================================================
+
+                kwargs = {
+
+                    "sk_model": best_model,
+
+                    "name": "model"
+
+                }
+
+                if tracking_scheme != "file":
+
+                    kwargs["registered_model_name"] = "NetworkSecurityLogTriage"
+
+                mlflow.sklearn.log_model(**kwargs)
+
+        except Exception as e:
+            logging.warning(
+                f"MLflow logging failed: {e}"
+                )
+
 
         
     def train_model(self,X_train,y_train ,x_test,y_test):
@@ -122,23 +257,41 @@ class ModelTrainer:
 
         classification_train_metric=get_classification_score(y_true=y_train,y_pred=y_train_pred)
 
-        ## Track the experiements with mlflow
-        self.track_mlflow(best_model,classification_train_metric)
-
-
         y_test_pred=best_model.predict(x_test)
         classification_test_metric=get_classification_score(y_true=y_test,y_pred=y_test_pred)
 
-        # ## Track the experiements with mlflow (with test metric)
-        self.track_mlflow(best_model,classification_test_metric)
+        # ===========================================
+        # Log entire experiment
+        # (single MLflow run)
+        # ===========================================
+
+        self.track_mlflow(
+
+            best_model=best_model,
+
+            best_model_name=best_model_name,
+
+            train_metric=classification_train_metric,
+
+            test_metric=classification_test_metric,
+
+            train_size=len(X_train),
+
+            test_size=len(x_test),
+
+            model_params=best_model.get_params()
+
+        )
 
         preprocessor = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
             
         model_dir_path = os.path.dirname(self.model_trainer_config.trained_model_file_path)
         os.makedirs(model_dir_path,exist_ok=True)
 
-        Network_Model=NetworkModel(preprocessor=preprocessor,model=best_model)
-        save_object(self.model_trainer_config.trained_model_file_path,obj=NetworkModel)
+        network_model = NetworkModel(preprocessor=preprocessor,
+                                     model=best_model)
+        save_object(self.model_trainer_config.trained_model_file_path,
+                    obj=network_model)
         #model pusher
         save_object("model/model.pkl",best_model)
 
@@ -150,8 +303,6 @@ class ModelTrainer:
         logging.info(f"Model trainer artifact: {model_trainer_artifact}")
         return model_trainer_artifact
     
-
-
         
     
     # Initiate model trainer 
