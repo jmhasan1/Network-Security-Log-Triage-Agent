@@ -1,10 +1,10 @@
-from networksecurity.exception.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
+from src.network_security.exception.exception import NetworkSecurityException
+from src.network_security.logging.logger import logging
 
 
 # ## Configuration of Data Ingestion Config
-from networksecurity.entity.config_entity import DataIngestionConfig
-from networksecurity.entity.artifact_entity import DataIngestionArtifact
+from src.network_security.entity.config_entity import DataIngestionConfig
+from src.network_security.entity.artifact_entity import DataIngestionArtifact
 import os
 import sys
 import numpy as np

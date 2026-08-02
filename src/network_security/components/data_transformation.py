@@ -5,18 +5,18 @@ import pandas as pd
 from sklearn.impute import KNNImputer
 from sklearn.pipeline import Pipeline
 
-from networksecurity.constant.training_pipeline import TARGET_COLUMN
-from networksecurity.constant.training_pipeline import DATA_TRANSFORMATION_IMPUTER_PARAMS
+from src.network_security.constant.training_pipeline import TARGET_COLUMN
+from src.network_security.constant.training_pipeline import DATA_TRANSFORMATION_IMPUTER_PARAMS
 
-from networksecurity.entity.artifact_entity import (
+from src.network_security.entity.artifact_entity import (
     DataTransformationArtifact,
     DataValidationArtifact
 )
 
-from networksecurity.entity.config_entity import DataTransformationConfig
-from networksecurity.exception.exception import NetworkSecurityException 
-from networksecurity.logging.logger import logging
-from networksecurity.utils.main_utils.utils import save_numpy_array_data,save_object
+from src.network_security.entity.config_entity import DataTransformationConfig
+from src.network_security.exception.exception import NetworkSecurityException 
+from src.network_security.logging.logger import logging
+from src.network_security.utils.main_utils.utils import save_numpy_array_data,save_object
 
 
 class DataTransformation:
@@ -26,7 +26,7 @@ class DataTransformation:
             self.data_validation_artifact:DataValidationArtifact=data_validation_artifact
             self.data_transformation_config:DataTransformationConfig=data_transformation_config
         except Exception as e:
-            raise NetworkSecurityException(e,sys)
+            raise NetworkSecurityException (e,sys)
         
     @staticmethod
     def read_data(file_path) -> pd.DataFrame:
@@ -92,7 +92,7 @@ class DataTransformation:
             save_numpy_array_data( self.data_transformation_config.transformed_test_file_path,array=test_arr,)
             save_object( self.data_transformation_config.transformed_object_file_path, preprocessor_object,)
 
-            save_object( "model/preprocessor.pkl", preprocessor_object)
+            save_object( "models/preprocessor.pkl", preprocessor_object)
 
 
             #preparing artifacts
@@ -107,4 +107,4 @@ class DataTransformation:
 
             
         except Exception as e:
-            raise NetworkSecurityException(e,sys)
+            raise NetworkSecurityException (e,sys)

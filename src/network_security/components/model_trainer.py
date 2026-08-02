@@ -1,18 +1,18 @@
 import os
 import sys
 
-from networksecurity.exception.exception import NetworkSecurityException 
-from networksecurity.logging.logger import logging
+from src.network_security.exception.exception import NetworkSecurityException 
+from src.network_security.logging.logger import logging
 
-from networksecurity.entity.artifact_entity import DataTransformationArtifact,ModelTrainerArtifact
-from networksecurity.entity.config_entity import ModelTrainerConfig
+from src.network_security.entity.artifact_entity import DataTransformationArtifact,ModelTrainerArtifact
+from src.network_security.entity.config_entity import ModelTrainerConfig
 
 
 
-from networksecurity.utils.ml_utils.model.estimator import NetworkModel
-from networksecurity.utils.main_utils.utils import save_object,load_object
-from networksecurity.utils.main_utils.utils import load_numpy_array_data,evaluate_models
-from networksecurity.utils.ml_utils.metric.classification_metric import get_classification_score
+from src.network_security.utils.ml_utils.model.estimator import NetworkModel
+from src.network_security.utils.main_utils.utils import save_object,load_object
+from src.network_security.utils.main_utils.utils import load_numpy_array_data,evaluate_models
+from src.network_security.utils.ml_utils.metric.classification_metric import get_classification_score
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import r2_score
@@ -293,7 +293,7 @@ class ModelTrainer:
         save_object(self.model_trainer_config.trained_model_file_path,
                     obj=network_model)
         #model pusher
-        save_object("model/model.pkl",best_model)
+        save_object("models/model.pkl",best_model)
 
         ## Model Trainer Artifact
         model_trainer_artifact=ModelTrainerArtifact(trained_model_file_path=self.model_trainer_config.trained_model_file_path,
