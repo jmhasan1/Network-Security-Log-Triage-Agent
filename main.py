@@ -1,13 +1,13 @@
-from networksecurity.components.data_ingestion import DataIngestion
-from networksecurity.components.data_validation import DataValidation
-from networksecurity.components.data_transformation import DataTransformation
-from networksecurity.exception.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
-from networksecurity.entity.config_entity import DataIngestionConfig, DataValidationConfig,DataTransformationConfig
-from networksecurity.entity.config_entity import TrainingPipelineConfig
+from src.network_security.components.data_ingestion import DataIngestion
+from src.network_security.components.data_validation import DataValidation
+from src.network_security.components.data_transformation import DataTransformation
+from src.network_security.exception.exception import NetworkSecurityException
+from src.network_security.logging.logger import logging
+from src.network_security.entity.config_entity import DataIngestionConfig, DataValidationConfig,DataTransformationConfig
+from src.network_security.entity.config_entity import TrainingPipelineConfig
 
-from networksecurity.components.model_trainer import ModelTrainer
-from networksecurity.entity.config_entity import ModelTrainerConfig
+from src.network_security.components.model_trainer import ModelTrainer
+from src.network_security.entity.config_entity import ModelTrainerConfig
  
 
 import sys

@@ -1,15 +1,15 @@
 import os
 import sys
 
-from networksecurity.exception.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
+from src.network_security.exception.exception import NetworkSecurityException
+from src.network_security.logging.logger import logging
 
-from networksecurity.components.data_ingestion import DataIngestion
-from networksecurity.components.data_validation import DataValidation
-from networksecurity.components.data_transformation import DataTransformation
-from networksecurity.components.model_trainer import ModelTrainer
+from src.network_security.components.data_ingestion import DataIngestion
+from src.network_security.components.data_validation import DataValidation
+from src.network_security.components.data_transformation import DataTransformation
+from src.network_security.components.model_trainer import ModelTrainer
 
-from networksecurity.entity.config_entity import(
+from src.network_security.entity.config_entity import(
     TrainingPipelineConfig,
     DataIngestionConfig,
     DataValidationConfig,
@@ -17,7 +17,7 @@ from networksecurity.entity.config_entity import(
     ModelTrainerConfig,
 )
 
-from networksecurity.entity.artifact_entity import (
+from src.network_security.entity.artifact_entity import (
     DataIngestionArtifact,
     DataValidationArtifact,
     DataTransformationArtifact,
@@ -25,9 +25,9 @@ from networksecurity.entity.artifact_entity import (
 )
 
 
-from networksecurity.constant.training_pipeline import TRAINING_BUCKET_NAME
-# from networksecurity.cloud.s3_syncer import S3Sync
-from networksecurity.constant.training_pipeline import SAVED_MODEL_DIR
+from src.network_security.constant.training_pipeline import TRAINING_BUCKET_NAME
+# from src.network_security.cloud.s3_syncer import S3Sync
+from src.network_security.constant.training_pipeline import SAVED_MODEL_DIR
 import sys
 
 

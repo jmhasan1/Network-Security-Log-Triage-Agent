@@ -9,9 +9,9 @@ load_dotenv()
 mongo_db_url = os.getenv("MONGODB_URL_KEY")
 print(mongo_db_url)
 import pymongo
-from networksecurity.exception.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
-from networksecurity.pipeline.training_pipeline import TrainingPipeline
+from src.network_security.exception.exception import NetworkSecurityException
+from src.network_security.logging.logger import logging
+from src.network_security.pipeline.training_pipeline import TrainingPipeline
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File, UploadFile,Request
@@ -20,14 +20,14 @@ from fastapi.responses import Response
 from starlette.responses import RedirectResponse
 import pandas as pd
 
-from networksecurity.utils.main_utils.utils import load_object
+from src.network_security.utils.main_utils.utils import load_object
 
-from networksecurity.utils.ml_utils.model.estimator import NetworkModel
+from src.network_security.utils.ml_utils.model.estimator import NetworkModel
 
 client = pymongo.MongoClient(mongo_db_url, tlsCAFile=ca)
 
-from networksecurity.constant.training_pipeline import DATA_INGESTION_COLLECTION_NAME
-from networksecurity.constant.training_pipeline import DATA_INGESTION_DATABASE_NAME
+from src.network_security.constant.training_pipeline import DATA_INGESTION_COLLECTION_NAME
+from src.network_security.constant.training_pipeline import DATA_INGESTION_DATABASE_NAME
 
 database = client[DATA_INGESTION_DATABASE_NAME]
 collection = database[DATA_INGESTION_COLLECTION_NAME]

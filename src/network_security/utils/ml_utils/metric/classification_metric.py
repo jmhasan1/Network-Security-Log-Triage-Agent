@@ -1,5 +1,5 @@
-from networksecurity.entity.artifact_entity import ClassificationMetricArtifact
-from networksecurity.exception.exception import NetworkSecurityException
+from src.network_security.entity.artifact_entity import ClassificationMetricArtifact
+from src.network_security.exception.exception import NetworkSecurityException
 from sklearn.metrics import f1_score,precision_score,recall_score
 import sys
 
