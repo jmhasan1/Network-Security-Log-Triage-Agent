@@ -398,7 +398,7 @@ It is an **evidence-driven security triage system with a genuine investigation l
 
 # 👨‍💻 Author
 
-**Jahid Hasan**
+**Jahid Md Hasan**
 
 AI / ML Engineer
 
