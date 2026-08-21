@@ -18,3 +18,8 @@ dependencies = [
     "setuptools>=83.0.0",
     "uvicorn>=0.51.0",
 ]
+
+[dependency-groups]
+dev = [
+    "dvc[s3]>=3.67.1",
+]

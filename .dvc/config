@@ -1,0 +1,4 @@
+[core]
+    remote = origin
+['remote "origin"']
+    url = https://dagshub.com/jmhasan1/Network-Security-Log-Triage-Agent.dvc
