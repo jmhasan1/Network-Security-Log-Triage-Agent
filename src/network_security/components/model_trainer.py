@@ -1,18 +1,23 @@
 import os
 import sys
 
-from src.network_security.exception.exception import NetworkSecurityException 
-from src.network_security.logging.logger import logging
+from network_security.utils.lineage import (
+    collect_lineage,
+    create_lineage_artifacts,
+)
 
-from src.network_security.entity.artifact_entity import DataTransformationArtifact,ModelTrainerArtifact
-from src.network_security.entity.config_entity import ModelTrainerConfig
+from network_security.exception.exception import NetworkSecurityException 
+from network_security.logging.logger import logging
+
+from network_security.entity.artifact_entity import DataTransformationArtifact,ModelTrainerArtifact
+from network_security.entity.config_entity import ModelTrainerConfig
 
 
 
-from src.network_security.utils.ml_utils.model.estimator import NetworkModel
-from src.network_security.utils.main_utils.utils import save_object,load_object
-from src.network_security.utils.main_utils.utils import load_numpy_array_data,evaluate_models
-from src.network_security.utils.ml_utils.metric.classification_metric import get_classification_score
+from network_security.utils.ml_utils.model.estimator import NetworkModel
+from network_security.utils.main_utils.utils import save_object,load_object
+from network_security.utils.main_utils.utils import load_numpy_array_data,evaluate_models
+from network_security.utils.ml_utils.metric.classification_metric import get_classification_score
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import r2_score
@@ -79,6 +84,45 @@ class ModelTrainer:
             tracking_scheme = urlparse(mlflow.get_tracking_uri()).scheme
 
             with mlflow.start_run():
+
+                # ===========================================
+                # Collect experiment lineage & artifacts
+                # ===========================================
+
+                lineage = collect_lineage()
+                lineage_artifacts = create_lineage_artifacts(lineage)
+
+                mlflow.set_tags(
+                {
+                    "project_name": lineage["project_name"],
+                    "project_version": lineage["project_version"],
+                    "git_commit": lineage["git_commit"],
+                    "git_branch": lineage["git_branch"],
+                    "dataset_version": lineage["dataset_version"],
+                    "dataset_dvc_hash": lineage["dataset_dvc_hash"],
+                    "dataset_sha256": lineage["dataset_sha256"],
+                    "feature_version": lineage["feature_version"],
+                    "preprocessing_version": lineage["preprocessing_version"],
+                    "python_version": lineage["python_version"],
+                    "environment_manager": lineage["environment_manager"],
+                    "lockfile_hash": lineage["lockfile_hash"],
+                }
+                )
+
+                mlflow.log_artifact(
+                    str(lineage_artifacts["git_info"]),
+                    artifact_path="provenance",
+                )
+
+                mlflow.log_artifact(
+                    str(lineage_artifacts["dataset_metadata"]),
+                    artifact_path="dataset",
+                )
+
+                mlflow.log_artifact(
+                    str(lineage_artifacts["uv_lock"]),
+                    artifact_path="environment",
+                )
 
                 # ===========================
                 # Training Metrics
@@ -157,14 +201,9 @@ class ModelTrainer:
                     "scikit-learn"
                 )
 
-                mlflow.set_tag(
-                    "project",
-                    "Network Security Log Triage Agent"
-                )
-
                 # log dataset version
                 mlflow.set_tag(
-                    "dataset",
+                    "dataset_name",
                     "Network Security Phishing Dataset"
                 )
 
@@ -196,6 +235,7 @@ class ModelTrainer:
                     kwargs["registered_model_name"] = "NetworkSecurityLogTriage"
 
                 mlflow.sklearn.log_model(**kwargs)
+
 
         except Exception as e:
             logging.warning(
