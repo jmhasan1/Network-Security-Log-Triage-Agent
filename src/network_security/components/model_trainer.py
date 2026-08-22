@@ -1,5 +1,6 @@
 import os
 import sys
+from dotenv import load_dotenv
 
 from network_security.utils.lineage import (
     collect_lineage,
@@ -11,8 +12,6 @@ from network_security.logging.logger import logging
 
 from network_security.entity.artifact_entity import DataTransformationArtifact,ModelTrainerArtifact
 from network_security.entity.config_entity import ModelTrainerConfig
-
-
 
 from network_security.utils.ml_utils.model.estimator import NetworkModel
 from network_security.utils.main_utils.utils import save_object,load_object
@@ -34,7 +33,8 @@ from urllib.parse import urlparse
 import dagshub
 # dagshub.init(repo_owner='jmhasan1', repo_name='Network-Security-Log-Triage-Agent', mlflow=True)
 
-os.environ["MLFLOW_TRACKING_URI"]=os.getenv("MLFLOW_TRACKING_URI")
+load_dotenv()
+
 os.environ["MLFLOW_TRACKING_USERNAME"]=os.getenv("MLFLOW_TRACKING_USERNAME")
 os.environ["MLFLOW_TRACKING_PASSWORD"]=os.getenv("MLFLOW_TRACKING_PASSWORD")
 
@@ -79,7 +79,14 @@ class ModelTrainer:
 
         try:
 
-            mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
+            mlflow_tracking_uri = os.getenv("MLFLOW_TRACKING_URI")
+
+            if not mlflow_tracking_uri:
+                raise NetworkSecurityException(
+                    "MLFLOW_TRACKING_URI is not configured in the environment."
+                )
+
+            mlflow.set_tracking_uri(mlflow_tracking_uri)
             
             tracking_scheme = urlparse(mlflow.get_tracking_uri()).scheme
 
