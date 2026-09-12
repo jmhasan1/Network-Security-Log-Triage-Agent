@@ -67,3 +67,7 @@ old_requirements.txt
 *.tmp
 *.temp
 .DS_Store
+
+#Notes
+Notes/
+

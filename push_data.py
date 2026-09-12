@@ -14,8 +14,8 @@ ca = certifi.where()
 import pandas as pd
 import numpy as np
 import pymongo
-from networksecurity.exception.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
+from network_security.exception.exception import NetworkSecurityException
+from network_security.logging.logger import logging
 
 class NetworkDataExtract():
     def __init__(self):
@@ -65,12 +65,20 @@ class NetworkDataExtract():
             raise NetworkSecurityException(e, sys)
 
         
-if __name__=='__main__':
-    FILE_PATH="Network_Data\phisingData.csv"
-    DATABASE="Jahid'sAI"
-    Collection="NetworkData"
-    networkobj=NetworkDataExtract()
-    records=networkobj.csv_to_json_convertor(file_path=FILE_PATH)
-    print(records)
-    no_of_records=networkobj.insert_data_mongodb(records,DATABASE,Collection)
+if __name__ == '__main__':
+    FILE_PATH = "data/raw/phisingData.csv"
+    DATABASE = "Jahid'sAI"
+    Collection = "NetworkData"
+
+    networkobj = NetworkDataExtract()
+    records = networkobj.csv_to_json_convertor(file_path=FILE_PATH)
+
+    # print(records)
+
+    no_of_records = networkobj.insert_data_mongodb(
+        records,
+        DATABASE,
+        Collection
+    )
+
     print(no_of_records)

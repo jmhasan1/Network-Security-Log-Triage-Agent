@@ -32,7 +32,7 @@ import sys
 
 
 
-class TrainingPipleine:
+class TrainingPipeline:
     def __init__(self):
         self.training_pipeline_config = TrainingPipelineConfig()
 
