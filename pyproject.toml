@@ -17,6 +17,7 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "scikit-learn>=1.9.0",
     "setuptools>=83.0.0",
+    "sqlparse>=0.6.0",
     "uvicorn>=0.51.0",
 ]
 
