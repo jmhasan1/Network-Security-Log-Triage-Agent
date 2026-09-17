@@ -1,0 +1,154 @@
+{
+  "experiment": {
+    "name": "phase_2_reproducibility_baseline",
+    "generated_at_utc": "2026-09-17T14:42:17.634603+00:00",
+    "status": "completed"
+  },
+  "dataset": {
+    "path": "e:/Projects/Network security log triage agent/notebooks/data/raw/phisingData.csv",
+    "sha256": "a4b16abbd8610e4f53fd63e8eb3da793157a961111ed5e9d9d8afa21af866995",
+    "shape": [
+      11055,
+      31
+    ],
+    "dataframe_fingerprint": "44da7c443a4861a2910cadbc57b3a1faea0581567078ab1f6bce0d8ffc09b5ca",
+    "target": "Result",
+    "exact_duplicate_rows": 5206
+  },
+  "split": {
+    "test_size": 0.2,
+    "random_state": 42,
+    "stratified": false,
+    "train_shape": [
+      8844,
+      31
+    ],
+    "test_shape": [
+      2211,
+      31
+    ],
+    "train_fingerprint_a": "6d918e242fbd86da0d868499efa38d1c9067a03bf35882f8cebfdae5737f1b85",
+    "train_fingerprint_b": "6d918e242fbd86da0d868499efa38d1c9067a03bf35882f8cebfdae5737f1b85",
+    "test_fingerprint_a": "be6c5f2a7a341e25c5718b31f181950b05f1ccf1e4f99eaea84c218511ed3ee1",
+    "test_fingerprint_b": "be6c5f2a7a341e25c5718b31f181950b05f1ccf1e4f99eaea84c218511ed3ee1",
+    "train_identical": true,
+    "test_identical": true
+  },
+  "preprocessing": {
+    "transformer": "KNNImputer",
+    "n_neighbors": 3,
+    "weights": "uniform",
+    "train_shape": [
+      8844,
+      30
+    ],
+    "test_shape": [
+      2211,
+      30
+    ],
+    "train_identical": true,
+    "test_identical": true,
+    "train_fingerprint_a": "e9cd829e2f31163c9ebaff55da309ecb47b05a757123920a24d66ede257fde7d",
+    "train_fingerprint_b": "e9cd829e2f31163c9ebaff55da309ecb47b05a757123920a24d66ede257fde7d",
+    "test_fingerprint_a": "8a927a6b968ad941bfeccfa0d9ad1dcca30d570be38d823218794114c51b7914",
+    "test_fingerprint_b": "8a927a6b968ad941bfeccfa0d9ad1dcca30d570be38d823218794114c51b7914"
+  },
+  "model": {
+    "algorithm": "RandomForestClassifier",
+    "params": {
+      "n_estimators": 128,
+      "criterion": "gini",
+      "bootstrap": true,
+      "max_depth": null,
+      "max_features": "sqrt"
+    },
+    "current_configuration": {
+      "metrics_run_a": {
+        "accuracy": 0.9669832654907282,
+        "f1": 0.9711576451995259,
+        "precision": 0.963166144200627,
+        "recall": 0.9792828685258964,
+        "confusion_matrix": [
+          [
+            909,
+            47
+          ],
+          [
+            26,
+            1229
+          ]
+        ]
+      },
+      "metrics_run_b": {
+        "accuracy": 0.9674355495251018,
+        "f1": 0.9715415019762846,
+        "precision": 0.9639215686274509,
+        "recall": 0.9792828685258964,
+        "confusion_matrix": [
+          [
+            910,
+            46
+          ],
+          [
+            26,
+            1229
+          ]
+        ]
+      },
+      "predictions_identical": false,
+      "prediction_fingerprint_a": "1e399f8978a47e7a44d697aa813fe058e606679eacd5fd4c640e4e1ee375491d",
+      "prediction_fingerprint_b": "191f7cca18f3bcc8519594c663b90937920ea5ca8f594e8e57e24aa0c7e67ffc"
+    },
+    "explicit_seed_configuration": {
+      "random_state": 42,
+      "metrics_run_a": {
+        "accuracy": 0.968340117593849,
+        "f1": 0.9723320158102767,
+        "precision": 0.9647058823529412,
+        "recall": 0.9800796812749004,
+        "confusion_matrix": [
+          [
+            911,
+            45
+          ],
+          [
+            25,
+            1230
+          ]
+        ]
+      },
+      "metrics_run_b": {
+        "accuracy": 0.968340117593849,
+        "f1": 0.9723320158102767,
+        "precision": 0.9647058823529412,
+        "recall": 0.9800796812749004,
+        "confusion_matrix": [
+          [
+            911,
+            45
+          ],
+          [
+            25,
+            1230
+          ]
+        ]
+      },
+      "predictions_identical": true,
+      "prediction_fingerprint_a": "5f5d3b04cf3fa47a075a88aba4afc421c0fb8202b21d646318a723e200968d66",
+      "prediction_fingerprint_b": "5f5d3b04cf3fa47a075a88aba4afc421c0fb8202b21d646318a723e200968d66"
+    }
+  },
+  "recorded_v0_1_x_baseline": {
+    "f1": 0.9707740916271722,
+    "precision": 0.9624119028974158,
+    "recall": 0.9792828685258964
+  },
+  "environment": {
+    "python": "3.11.13",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "machine": "AMD64",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.0"
+  }
+}
