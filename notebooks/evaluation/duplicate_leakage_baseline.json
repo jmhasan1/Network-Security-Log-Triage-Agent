@@ -1,0 +1,168 @@
+{
+  "experiment": {
+    "name": "phase_3_duplicate_leakage_baseline",
+    "generated_at_utc": "2026-09-21T18:39:27.703259+00:00",
+    "status": "completed",
+    "production_code_modified": false
+  },
+  "dataset": {
+    "path": "E:\\Projects\\Network security log triage agent\\notebooks\\data\\raw\\phisingData.csv",
+    "sha256": "a4b16abbd8610e4f53fd63e8eb3da793157a961111ed5e9d9d8afa21af866995",
+    "shape": [
+      11055,
+      31
+    ],
+    "dataframe_fingerprint": "44da7c443a4861a2910cadbc57b3a1faea0581567078ab1f6bce0d8ffc09b5ca",
+    "target": "Result",
+    "exact_duplicate_rows": 5206,
+    "unique_full_rows": 5849,
+    "feature_columns": 30
+  },
+  "duplicate_structure": {
+    "feature_duplicate_rows": 5270,
+    "feature_duplicate_groups": 2614,
+    "max_feature_group_size": 25,
+    "conflicting_label_groups": 64,
+    "consistent_duplicate_groups": 2550,
+    "group_size_distribution": {
+      "1": 3171,
+      "2": 1487,
+      "3": 423,
+      "4": 437,
+      "5": 89,
+      "6": 63,
+      "7": 30,
+      "8": 32,
+      "9": 20,
+      "10": 14,
+      "11": 5,
+      "12": 4,
+      "13": 3,
+      "15": 1,
+      "16": 2,
+      "22": 1,
+      "24": 2,
+      "25": 1
+    }
+  },
+  "random_row_split": {
+    "test_size": 0.2,
+    "random_state": 42,
+    "stratified": false,
+    "train_shape": [
+      8844,
+      31
+    ],
+    "test_shape": [
+      2211,
+      31
+    ],
+    "shared_feature_groups": 1143,
+    "test_rows_with_train_duplicate": 1447,
+    "test_duplicate_overlap_rate": 0.6544549977385798,
+    "train_rows_with_test_duplicate": 2703,
+    "train_duplicate_overlap_rate": 0.3056309362279512,
+    "metrics": {
+      "train_shape": [
+        8844,
+        31
+      ],
+      "test_shape": [
+        2211,
+        31
+      ],
+      "train_target_distribution": {
+        "-1": 3942,
+        "1": 4902
+      },
+      "test_target_distribution": {
+        "-1": 956,
+        "1": 1255
+      },
+      "accuracy": 0.968340117593849,
+      "f1": 0.9723320158102767,
+      "precision": 0.9647058823529412,
+      "recall": 0.9800796812749004,
+      "confusion_matrix": [
+        [
+          911,
+          45
+        ],
+        [
+          25,
+          1230
+        ]
+      ]
+    }
+  },
+  "duplicate_group_split": {
+    "splitter": "GroupShuffleSplit",
+    "test_size": 0.2,
+    "random_state": 42,
+    "train_shape": [
+      8751,
+      31
+    ],
+    "test_shape": [
+      2304,
+      31
+    ],
+    "shared_feature_groups": 0,
+    "metrics": {
+      "train_shape": [
+        8751,
+        31
+      ],
+      "test_shape": [
+        2304,
+        31
+      ],
+      "train_target_distribution": {
+        "-1": 3949,
+        "1": 4802
+      },
+      "test_target_distribution": {
+        "-1": 949,
+        "1": 1355
+      },
+      "accuracy": 0.9453125,
+      "f1": 0.9527736131934033,
+      "precision": 0.968012185833968,
+      "recall": 0.9380073800738007,
+      "confusion_matrix": [
+        [
+          907,
+          42
+        ],
+        [
+          84,
+          1271
+        ]
+      ]
+    }
+  },
+  "model": {
+    "algorithm": "RandomForestClassifier",
+    "params": {
+      "n_estimators": 128,
+      "criterion": "gini",
+      "bootstrap": true,
+      "max_depth": null,
+      "max_features": "sqrt",
+      "random_state": 42
+    },
+    "preprocessing": {
+      "transformer": "KNNImputer",
+      "n_neighbors": 3,
+      "weights": "uniform"
+    }
+  },
+  "environment": {
+    "python": "3.11.13",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "machine": "AMD64",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.0"
+  }
+}
