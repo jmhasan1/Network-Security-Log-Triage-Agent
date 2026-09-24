@@ -1,0 +1,239 @@
+{
+  "experiment": {
+    "name": "phase_3c1_evaluation_protocol_freeze",
+    "generated_at_utc": "2026-09-24T17:11:21.708593+00:00",
+    "status": "completed",
+    "production_code_modified": false,
+    "canonical_dataset_modified": false,
+    "notebook": "E:\\Projects\\Network security log triage agent\\notebooks\\17_evaluation_protocol_freeze.ipynb"
+  },
+  "dataset": {
+    "path": "E:\\Projects\\Network security log triage agent\\data\\raw\\phisingData.csv",
+    "sha256": "a4b16abbd8610e4f53fd63e8eb3da793157a961111ed5e9d9d8afa21af866995",
+    "shape": [
+      11055,
+      31
+    ],
+    "dataframe_fingerprint": "885e849647c229a5a08975c61e39a2e3d94b08ac740a6e975319dbff12703b72",
+    "target": "Result",
+    "feature_count": 30,
+    "rows_participating_in_duplicate_feature_groups": 7884,
+    "unique_full_rows": 5849
+  },
+  "configuration": {
+    "test_size": 0.2,
+    "random_state": 42,
+    "group_encoding": "lexicographically_sorted_complete_feature_tuple_to_contiguous_integer_id",
+    "target_mapping": {
+      "-1": 0,
+      "1": 1
+    },
+    "preprocessing": {
+      "transformer": "KNNImputer",
+      "n_neighbors": 3,
+      "weights": "uniform"
+    },
+    "model": {
+      "type": "RandomForestClassifier",
+      "n_estimators": 128,
+      "criterion": "gini",
+      "bootstrap": true,
+      "max_depth": null,
+      "max_features": "sqrt",
+      "random_state": 42
+    }
+  },
+  "reconciliation": {
+    "legacy_vs_canonical": {
+      "train_rows_equal": false,
+      "test_rows_equal": false,
+      "train_index_overlap": 6965,
+      "test_index_overlap": 446
+    },
+    "canonical_repeatability": {
+      "train_rows_equal": true,
+      "test_rows_equal": true
+    },
+    "canonical_vs_hash": {
+      "train_rows_equal": false,
+      "test_rows_equal": false,
+      "train_index_overlap": 7029,
+      "test_index_overlap": 515
+    }
+  },
+  "group_equivalence": {
+    "legacy_valid": true,
+    "canonical_valid": true,
+    "hash_valid": true,
+    "legacy_group_count": 5785,
+    "canonical_group_count": 5785,
+    "hash_group_count": 5785,
+    "canonical_group_ids_are_contiguous": true
+  },
+  "protocols": {
+    "A_random_row_split": {
+      "protocol": "A_random_row_split",
+      "train_rows": 8844,
+      "test_rows": 2211,
+      "train_target_counts": {
+        "0": 3942,
+        "1": 4902
+      },
+      "test_target_counts": {
+        "0": 956,
+        "1": 1255
+      },
+      "shared_feature_groups": 1143,
+      "accuracy": 0.968340117593849,
+      "f1": 0.9723320158102767,
+      "precision": 0.9647058823529412,
+      "recall": 0.9800796812749004,
+      "confusion_matrix": [
+        [
+          911,
+          45
+        ],
+        [
+          25,
+          1230
+        ]
+      ],
+      "train_membership_fingerprint": "4f86d11e876c2ef26f0888c1ce690698758915cc3acb0640b0ec4f71631e81fb",
+      "test_membership_fingerprint": "5ee41c88306eb5585eae19ba3d1a7af603f44fc13f3abef15e3cb039e9ad60da",
+      "test_rows_with_train_duplicate": 1447,
+      "test_duplicate_overlap_rate": 0.6544549977385798
+    },
+    "B_deterministic_feature_group_aware_split": {
+      "protocol": "B_deterministic_feature_group_aware_split",
+      "train_rows": 8797,
+      "test_rows": 2258,
+      "train_target_counts": {
+        "0": 3966,
+        "1": 4831
+      },
+      "test_target_counts": {
+        "0": 932,
+        "1": 1326
+      },
+      "shared_feature_groups": 0,
+      "accuracy": 0.9481842338352524,
+      "f1": 0.9554625047582794,
+      "precision": 0.9646425826287471,
+      "recall": 0.9464555052790347,
+      "confusion_matrix": [
+        [
+          886,
+          46
+        ],
+        [
+          71,
+          1255
+        ]
+      ],
+      "train_membership_fingerprint": "8ce409452de18f284e44c132f3628b4b929af2a5967b64d4da5ab1115a191760",
+      "test_membership_fingerprint": "1189855d6296ad48d606e2fa10edc50f24d765ee77d3c38969f487d60b59bc35",
+      "repeatability_check": {
+        "train_membership_equal": true,
+        "test_membership_equal": true,
+        "metrics_equal": true,
+        "shared_groups_zero_run_1": true,
+        "shared_groups_zero_run_2": true
+      },
+      "second_run": {
+        "protocol": "B_deterministic_feature_group_aware_split_run_2",
+        "train_rows": 8797,
+        "test_rows": 2258,
+        "train_target_counts": {
+          "0": 3966,
+          "1": 4831
+        },
+        "test_target_counts": {
+          "0": 932,
+          "1": 1326
+        },
+        "shared_feature_groups": 0,
+        "accuracy": 0.9481842338352524,
+        "f1": 0.9554625047582794,
+        "precision": 0.9646425826287471,
+        "recall": 0.9464555052790347,
+        "confusion_matrix": [
+          [
+            886,
+            46
+          ],
+          [
+            71,
+            1255
+          ]
+        ],
+        "train_membership_fingerprint": "8ce409452de18f284e44c132f3628b4b929af2a5967b64d4da5ab1115a191760",
+        "test_membership_fingerprint": "1189855d6296ad48d606e2fa10edc50f24d765ee77d3c38969f487d60b59bc35"
+      }
+    },
+    "C_conflicting_groups_excluded_sensitivity": {
+      "protocol": "C_group_aware_conflicting_groups_excluded",
+      "train_rows": 8586,
+      "test_rows": 2112,
+      "train_target_counts": {
+        "0": 3795,
+        "1": 4791
+      },
+      "test_target_counts": {
+        "0": 958,
+        "1": 1154
+      },
+      "shared_feature_groups": 0,
+      "accuracy": 0.9621212121212122,
+      "f1": 0.9652476107732406,
+      "precision": 0.9677700348432056,
+      "recall": 0.962738301559792,
+      "confusion_matrix": [
+        [
+          921,
+          37
+        ],
+        [
+          43,
+          1111
+        ]
+      ],
+      "train_membership_fingerprint": "2f3e46996ca7ada966528e624dc9395150c04a6252d52cb1643bf2828e1938b4",
+      "test_membership_fingerprint": "5b157cb053a556f5bc70ef224df74a0fc8b7b8731161161837d47a919b64a9a8",
+      "rows_available": 10698,
+      "rows_excluded_from_canonical": 357,
+      "conflicting_groups": 64,
+      "conflicting_row_rate": 0.03229308005427409
+    },
+    "D_derived_label_policy": {
+      "protocol": "D_deterministic_group_majority_label",
+      "status": "not_admissible_as_official_benchmark",
+      "reason": "Would derive/rewrite labels for conflicting feature groups without external source or domain authority. This changes ground truth rather than merely changing the split.",
+      "production_dataset_modified": false
+    }
+  },
+  "decision": {
+    "official_primary_protocol": "B_deterministic_feature_group_aware_split",
+    "historical_baseline": "A_random_row_split",
+    "sensitivity_protocol": "C_group_aware_conflicting_groups_excluded",
+    "derived_label_protocol": "D_not_admissible_without_external_label_authority",
+    "deterministic_split_reproducible": true,
+    "freeze_checks": {
+      "canonical_group_relation_valid": true,
+      "canonical_group_ids_contiguous": true,
+      "repeat_train_membership_equal": true,
+      "repeat_test_membership_equal": true,
+      "repeat_metrics_equal": true,
+      "run_1_shared_groups_zero": true,
+      "run_2_shared_groups_zero": true
+    },
+    "production_code_modified": false,
+    "canonical_dataset_modified": false
+  },
+  "notes": [
+    "Protocol A is retained as a historical random-row baseline and is not leakage-controlled for duplicate feature groups.",
+    "Different group-ID orderings can produce different seeded GroupShuffleSplit partitions even when they encode the same mathematical groups.",
+    "Protocol B uses one canonical group-ID construction and freezes only after repeated membership and metric checks pass.",
+    "Protocol C excludes conflicting feature groups only for sensitivity analysis; the canonical dataset is unchanged.",
+    "Protocol D is not an official benchmark because it derives/reassigns labels without external authority."
+  ]
+}
