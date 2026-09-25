@@ -8,10 +8,11 @@ The project is being developed incrementally from a modular Machine Learning pip
 
 ## 🚧 Project Status
 
-**Current release:** `v0.1.x` — ML Pipeline Foundation
-**Next milestone:** `v0.2.0` — Reproducible & Hardened ML Foundation
+**Latest release:** `v0.1.0` — ML Pipeline Foundation (21 August 2026)  
+**Current development:** `v0.2.x` — Reproducible & Hardened ML Foundation  
+**Current status (25 September 2026):** Phases 1–3 complete; Phase 4 (Data Validation Hardening) is next. `v0.2.0` has not been released.
 
-The existing system provides the ML foundation required for the future triage agent.
+The v0.1.0 modular ML pipeline remains the released foundation. Work since that release has focused on dependency security, reproducibility experiments, duplicate/leakage analysis, conflicting-label investigation, and freezing a deterministic evaluation protocol. These are engineering and research milestones; they should not be interpreted as a completed v0.2.0 production pipeline.
 
 ### ✅ Implemented
 
@@ -26,13 +27,18 @@ The existing system provides the ML foundation required for the future triage ag
 * Docker support
 * Artifact-based pipeline architecture
 * Project documentation
+* Dependency security and vulnerability remediation (Phase 1)
+* Notebook-based reproducibility baseline and dataset fingerprinting (Phase 2)
+* Duplicate/leakage investigation and conflicting-label analysis (Phase 3)
+* Frozen deterministic feature-group-aware evaluation protocol (Phase 3C)
 
 ### 🔧 Current Development — `v0.2.x`
 
-* Improve data ingestion and validation
+* Phase 4: Data validation hardening (next)
+* Phase 5: Data ingestion hardening
 * Strengthen preprocessing
 * Improve model training and evaluation
-* Establish reproducible ML experiments
+* Continue reproducible ML experiments and restore notebooks in phase-aligned increments
 * Improve MLflow tracking
 * Add comprehensive model benchmarking
 * Add tests and pipeline hardening
@@ -203,6 +209,11 @@ The repository documentation explains the current ML system in detail so that th
 | [Inference API](docs/10_Inference_API.md)                           | FastAPI model serving                         |
 | [Utilities](docs/11_Utilities.md)                                   | Shared infrastructure                         |
 | [Future Roadmap](docs/12_Future_Roadmap.md)                         | Evolution toward the triage agent             |
+| [Dependency Security](docs/13_Dependency_Security_and_Vulnerability_Remediation.md) | Dependency audit and remediation record |
+| [Reproducibility & Dataset Integrity](docs/14_Reproducibility_and_Dataset_Integrity.md) | Phase 2 experiment, fingerprints, limitations |
+| [Duplicate & Leakage Investigation](docs/15_Duplicate_Leakage_Investigation.md) | Phase 3A duplicate analysis and leakage baseline |
+| [Conflicting-Label Investigation](docs/16_Conflicting_Label_Investigation.md) | Phase 3B conflict findings and handling decisions |
+| [Evaluation Protocol Freeze](docs/17_Evaluation_Protocol_Freeze.md) | Phase 3C protocols, frozen split and benchmark results |
 
 ---
 
@@ -224,7 +235,9 @@ evaluation/
 
 The current model serves as a **baseline candidate**, not the final Version 1 benchmark.
 
-The `v0.2.x` milestone will establish a stronger and reproducible ML benchmark before the project moves into security-log and agentic development.
+The Phase 3C frozen primary benchmark uses a deterministic feature-group-aware split (Protocol B), with zero shared feature groups between train and test and repeatable membership fingerprints. Protocol A is retained as a historical random-row baseline; Protocol C is sensitivity analysis only. See [the evaluation protocol freeze](docs/17_Evaluation_Protocol_Freeze.md).
+
+**Important:** All current benchmark figures are from the UCI Phishing Websites tabular dataset, not live network traffic or SOC operations. The benchmark is not yet the final Version 1 benchmark.
 
 ---
 
