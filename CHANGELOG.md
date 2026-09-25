@@ -6,6 +6,16 @@ The project follows semantic versioning for project releases.
 
 ## [Unreleased]
 
+### Engineering milestones completed since v0.1.0 (not a release)
+
+- Phase 1: dependency security review and vulnerability remediation documented in `docs/13_Dependency_Security_and_Vulnerability_Remediation.md`.
+- Phase 2: reproducibility experiment and dataset/split/preprocessing fingerprints recorded in Notebook 13 and `notebooks/evaluation/reproducibility_baseline.json`.
+- Phase 3A: duplicate structure and random-row split overlap investigated in Notebook 14 and `duplicate_leakage_baseline.json`.
+- Phase 3B: conflicting-label groups investigated in Notebook 15 and `conflicting_label_investigation.json`.
+- Phase 3C: evaluation protocols compared in Notebook 16; deterministic feature-group-aware Protocol B frozen in Notebook 17 and `phase_3c_evaluation_protocol_comparison_freezed.json`.
+- Added phase documentation `docs/14` through `docs/17` and updated notebook index.
+- These milestones do not constitute a `v0.2.0` release; production integration and remaining roadmap phases are still in progress.
+
 ### Planned
 
 - Harden data ingestion and validation

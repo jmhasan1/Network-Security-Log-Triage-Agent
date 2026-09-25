@@ -53,13 +53,20 @@ Maintaining a consistent structure improves readability, reproducibility, and lo
 
 ## Notebook Index
 
-| Notebook                  | Purpose                                                   | Status   |
-| ------------------------- | --------------------------------------------------------- | -------- |
-| `_template.ipynb`         | Standard notebook template used throughout the repository | ✅ Active |
-| `00_project_setup.ipynb`  | Validate the complete development environment             | Planned  |
-| `01_data_ingestion.ipynb` | Validate the Data Ingestion component independently       | Planned  |
+| Notebook | Purpose | Status as of 2026-09-25 |
+|---|---|---|
+| `01_data_ingestion.ipynb` | Ingestion workflow and data-source inspection | Existing notebook; restoration/hardening planned in Phase 5 |
+| `02_data_validation.ipynb` | Validation workflow | Phase 4 target; current contract and implementation audit pending |
+| `03_exploratory_data_analysis.ipynb`–`12_end_to_end_pipeline_test.ipynb` | EDA, transformation, feature engineering, training, evaluation, tracking, inference, and pipeline testing | Present in repository; some are scaffolds and are to be restored when directly required by their roadmap phase |
+| `13_reproducibility_experiment.ipynb` | Dataset and split/preprocessing repeatability baseline | Phase 2 complete |
+| `14_duplicate_leakage_experiment.ipynb` | Duplicate overlap and random-row leakage investigation | Phase 3A complete |
+| `15_conflicting_label_investigation.ipynb` | Conflicting labels among feature-identical rows | Phase 3B complete |
+| `16_evaluation_protocol_comparison.ipynb` | Compare evaluation protocols and group encodings | Phase 3C comparison complete; historical artifact retained |
+| `17_evaluation_protocol_freeze.ipynb` | Freeze deterministic feature-group-aware primary evaluation protocol | Phase 3C complete |
 
-Additional notebooks will be added as the project evolves.
+Machine-readable experiment outputs are stored under `notebooks/evaluation/`. Summary and interpretation are documented in `docs/14_Reproducibility_and_Dataset_Integrity.md` through `docs/17_Evaluation_Protocol_Freeze.md`.
+
+Notebooks 13–17 are experimental records. They do not imply that every corresponding capability has been integrated into production pipeline code.
 
 ## Notebook Categories (Planned)
 
